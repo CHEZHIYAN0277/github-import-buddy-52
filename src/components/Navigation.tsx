@@ -4,18 +4,14 @@ import { useScrollVisibility } from '@/hooks/useScrollVisibility'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'work', label: 'Work' },
-  { id: 'education', label: 'Education' },
-  { id: 'writing', label: 'Writing' },
-  { id: 'speaking', label: 'Speaking' },
+  { id: 'features', label: 'Features' },
+  { id: 'how', label: 'How it works' },
+  { id: 'use-cases', label: 'Use cases' },
 ]
 
 const socialLinks = [
-  { label: 'Mail', href: 'mailto:bruce@banner.com' },
-  { label: 'Instagram', href: 'https://instagram.com' },
-  { label: 'Vimeo', href: 'https://vimeo.com' },
+  { label: 'GitHub', href: '#' },
+  { label: 'Docs', href: '#' },
 ]
 
 export function Navigation() {
@@ -39,7 +35,7 @@ export function Navigation() {
         <div className="relative">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-sm text-white mix-blend-difference"
+            className="text-sm text-foreground mix-blend-difference"
           >
             {mobileMenuOpen ? 'Close' : 'Menu'}
           </button>
@@ -56,9 +52,9 @@ export function Navigation() {
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
                 className={cn(
-                  'text-sm text-white mix-blend-difference transition-all duration-300 relative py-1',
+                  'text-sm text-foreground mix-blend-difference transition-all duration-300 relative py-1',
                   'hover:opacity-60',
-                  activeSection === item.id && 'after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-white'
+                  activeSection === item.id && 'after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-foreground'
                 )}
               >
                 {item.label}
@@ -67,20 +63,36 @@ export function Navigation() {
           </div>
         </div>
 
+        {/* Brand */}
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="text-sm font-display tracking-tight text-foreground mix-blend-difference"
+        >
+          PROOFIX
+        </button>
+
         {/* Social Links - Right (Mobile) */}
         <div className="flex items-center gap-4">
           {socialLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              target={link.href.startsWith('mailto') ? undefined : '_blank'}
-              rel={link.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
-              className="text-sm text-white mix-blend-difference hover:opacity-60 transition-opacity"
+              className="text-sm text-foreground mix-blend-difference hover:opacity-60 transition-opacity"
             >
               {link.label}
             </a>
           ))}
         </div>
+      </div>
+
+      {/* Desktop Brand - Fixed Top Left (hidden on mobile) */}
+      <div className="hidden md:block fixed top-0 left-0 z-50 p-6 md:p-10">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="text-sm font-display tracking-tight text-foreground mix-blend-difference"
+        >
+          PROOFIX
+        </button>
       </div>
 
       {/* Desktop Social Links - Fixed Top Right (hidden on mobile) */}
@@ -90,9 +102,7 @@ export function Navigation() {
             <a
               key={link.label}
               href={link.href}
-              target={link.href.startsWith('mailto') ? undefined : '_blank'}
-              rel={link.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
-              className="text-sm text-white mix-blend-difference hover:opacity-60 transition-opacity"
+              className="text-sm text-foreground mix-blend-difference hover:opacity-60 transition-opacity"
             >
               {link.label}
             </a>
@@ -101,7 +111,7 @@ export function Navigation() {
       </div>
 
       {/* Desktop Navigation Items - Fixed Bottom Right (hidden on mobile) */}
-      <nav 
+      <nav
         className={cn(
           'hidden md:block fixed bottom-0 right-0 z-50 p-6 md:p-10 transition-all duration-500',
           isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'
@@ -113,9 +123,9 @@ export function Navigation() {
               key={item.id}
               onClick={() => scrollToSection(item.id)}
               className={cn(
-                'text-sm text-white mix-blend-difference transition-all duration-300 relative py-1',
+                'text-sm text-foreground mix-blend-difference transition-all duration-300 relative py-1',
                 'hover:opacity-60',
-                activeSection === item.id && 'after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-white'
+                activeSection === item.id && 'after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-foreground'
               )}
             >
               {item.label}
