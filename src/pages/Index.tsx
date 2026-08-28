@@ -1,22 +1,22 @@
 import { Navigation } from '@/components/Navigation'
 import { GrainOverlay } from '@/components/GrainOverlay'
 import { Hero } from '@/components/Hero'
-import { Features } from '@/components/Features'
-import { HowItWorks } from '@/components/HowItWorks'
-import { UseCases } from '@/components/UseCases'
-import { CtaSection } from '@/components/CtaSection'
+import { PipelineIntro } from '@/components/PipelineIntro'
+import { Pipeline } from '@/components/Pipeline'
+import { ProofSection } from '@/components/ProofSection'
+import { BrandStatement } from '@/components/BrandStatement'
 
 export default function Index() {
   return (
-    <div id="top" className="min-h-screen bg-background text-foreground">
+    <div id="top" className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <GrainOverlay />
       <Navigation />
       <main>
         <Hero />
-        <Features />
-        <HowItWorks />
-        <UseCases />
-        <CtaSection />
+        <PipelineIntro />
+        <Pipeline />
+        <ProofSection />
+        <BrandStatement />
       </main>
     </div>
   )

@@ -33,6 +33,9 @@
     --ring: 0 0% 98%;
 
     --radius: 0.5rem;
+
+    /* restrained technical accent */
+    --brand: 213 90% 62%;
   }
 
   * {
@@ -147,4 +150,9 @@
 
 .img-editorial:hover {
   filter: grayscale(0%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .grain-overlay::before { animation: none; }
 }

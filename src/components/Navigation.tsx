@@ -4,9 +4,10 @@ import { useScrollVisibility } from '@/hooks/useScrollVisibility'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { id: 'features', label: 'Features' },
-  { id: 'how', label: 'How it works' },
-  { id: 'use-cases', label: 'Use cases' },
+  { id: 'pipeline', label: 'Pipeline' },
+  { id: 'evidence', label: 'Evidence' },
+  { id: 'validation', label: 'Validation' },
+  { id: 'trust', label: 'Trust' },
 ]
 
 const socialLinks = [
