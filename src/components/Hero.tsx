@@ -3,17 +3,8 @@ import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
 export function Hero() {
-  const [repo, setRepo] = useState('')
-
-  const handleAnalyze = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!repo.trim()) {
-      toast.error('Paste a repository URL to analyze.')
-      return
-    }
-    toast.success('Queuing repository for analysis…', {
-      description: repo.trim(),
-    })
+  const handleAnalyze = () => {
+    toast.success('Queuing repository for analysis…')
   }
 
   return (
@@ -55,36 +46,28 @@ export function Hero() {
             evidence-driven repair, and rigorous validation.
           </motion.p>
 
-          {/* Analyze a repository input */}
-          <motion.form
-            onSubmit={handleAnalyze}
+          {/* Analyze a repository CTA */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-10 md:mt-12 w-full max-w-2xl"
+            className="mt-10 md:mt-12 flex justify-center"
           >
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-2 border border-border bg-secondary/60 backdrop-blur rounded-xl focus-within:border-foreground/40 transition-colors">
-              <div className="flex items-center gap-2 flex-1 px-3">
-                <span className="text-muted-foreground text-sm select-none">github.com/</span>
-                <input
-                  value={repo}
-                  onChange={(e) => setRepo(e.target.value)}
-                  placeholder="your-org/your-repo"
-                  className="flex-1 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground/60 text-sm md:text-base py-2"
-                  aria-label="Repository to analyze"
-                />
-              </div>
-              <button
-                type="submit"
-                className="shrink-0 px-6 py-3 bg-foreground text-background font-medium text-sm tracking-wide rounded-lg hover:bg-foreground/90 transition-colors"
-              >
-                Analyze a Repository
-              </button>
-            </div>
-            <p className="mt-3 text-xs text-muted-foreground/80 tracking-wide">
-              No setup. Bring a public repo — get a root-cause analysis in minutes.
-            </p>
-          </motion.form>
+            <button
+              onClick={handleAnalyze}
+              className="px-8 py-4 bg-foreground text-background font-medium text-sm tracking-wide rounded-lg hover:bg-foreground/90 transition-colors"
+            >
+              Analyze a Repository
+            </button>
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="mt-4 text-center text-xs text-muted-foreground/80 tracking-wide"
+          >
+            No setup. Bring a public repo — get a root-cause analysis in minutes.
+          </motion.p>
         </motion.div>
       </div>
 
