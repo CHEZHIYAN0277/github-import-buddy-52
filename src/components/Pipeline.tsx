@@ -48,6 +48,12 @@ export function Pipeline() {
 
   return (
     <div ref={trackRef} className="relative px-4 sm:px-6 md:px-12 lg:px-16">
+      <StageNav
+        activeIndex={activeIndex}
+        visible={navVisible}
+        onSelect={(i) => stageRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+      />
+
       {/* Vertical rail */}
       <div className="absolute top-0 bottom-0 left-[17px] sm:left-[25px] md:left-1/2 w-px bg-border/60 md:-translate-x-1/2">
         <motion.div
