@@ -3,11 +3,13 @@ import { motion, useScroll, useSpring } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { phases } from './pipeline/stageData'
 import { StageRow } from './pipeline/StageRow'
+import { StageNav } from './pipeline/StageNav'
 
 export function Pipeline() {
   const trackRef = useRef<HTMLDivElement>(null)
   const stageRefs = useRef<(HTMLDivElement | null)[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
+  const [navVisible, setNavVisible] = useState(false)
 
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -28,13 +30,30 @@ export function Pipeline() {
       { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
     )
     stageRefs.current.forEach((el) => el && observer.observe(el))
-    return () => observer.disconnect()
+
+    const trackObserver = new IntersectionObserver(
+      ([entry]) => setNavVisible(entry.isIntersecting),
+      { rootMargin: '-10% 0px -10% 0px', threshold: 0 }
+    )
+    if (trackRef.current) trackObserver.observe(trackRef.current)
+
+    return () => {
+      observer.disconnect()
+      trackObserver.disconnect()
+    }
   }, [])
+
 
   let counter = -1
 
   return (
     <div ref={trackRef} className="relative px-4 sm:px-6 md:px-12 lg:px-16">
+      <StageNav
+        activeIndex={activeIndex}
+        visible={navVisible}
+        onSelect={(i) => stageRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+      />
+
       {/* Vertical rail */}
       <div className="absolute top-0 bottom-0 left-[17px] sm:left-[25px] md:left-1/2 w-px bg-border/60 md:-translate-x-1/2">
         <motion.div
