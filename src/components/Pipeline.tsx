@@ -47,7 +47,7 @@ export function Pipeline() {
   let counter = -1
 
   return (
-    <div ref={trackRef} className="relative px-4 sm:px-6 md:px-12 lg:px-16">
+    <div ref={trackRef} id="pipeline" className="relative px-4 sm:px-6 md:px-12 lg:px-16">
       <StageNav
         activeIndex={activeIndex}
         visible={navVisible}
