@@ -60,7 +60,7 @@ export function Hero() {
             </button>
             <a
               href="#"
-              className="px-8 py-4 border border-foreground/20 text-foreground font-medium text-sm tracking-wide rounded-lg hover:bg-foreground/5 hover:border-foreground/40 transition-colors"
+              className="px-8 py-4 bg-foreground text-background font-medium text-sm tracking-wide rounded-lg hover:bg-foreground/90 transition-colors"
             >
               Documentation
             </a>
