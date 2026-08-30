@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { allStages } from './stageData'
 
@@ -8,11 +9,30 @@ type Props = {
 }
 
 export function StageNav({ activeIndex, visible, onSelect }: Props) {
+  const [scrolling, setScrolling] = useState(false)
+
+  useEffect(() => {
+    if (!visible) return
+    let timeout: ReturnType<typeof setTimeout>
+    const onScroll = () => {
+      setScrolling(true)
+      clearTimeout(timeout)
+      timeout = setTimeout(() => setScrolling(false), 200)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      clearTimeout(timeout)
+    }
+  }, [visible])
+
+  const shown = visible && !scrolling
+
   return (
     <nav
       className={cn(
         'hidden lg:block fixed left-0 top-1/2 -translate-y-1/2 z-50 p-6 md:p-10 transition-all duration-500',
-        visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8 pointer-events-none'
+        shown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8 pointer-events-none'
       )}
       aria-label="Pipeline stages"
     >
