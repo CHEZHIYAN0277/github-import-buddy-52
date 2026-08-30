@@ -31,12 +31,12 @@ export function StageNav({ activeIndex, visible, onSelect }: Props) {
   return (
     <nav
       className={cn(
-        'hidden lg:block fixed left-0 top-1/2 -translate-y-1/2 z-50 p-6 md:p-10 transition-all duration-500',
-        shown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8 pointer-events-none'
+        'hidden lg:block fixed right-0 top-1/2 -translate-y-1/2 z-50 p-6 md:p-10 transition-all duration-500',
+        shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'
       )}
       aria-label="Pipeline stages"
     >
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-end gap-2 text-right">
         {allStages.map((stage, i) => (
           <button
             key={stage.n}
