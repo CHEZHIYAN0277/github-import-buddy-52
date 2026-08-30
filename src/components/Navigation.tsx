@@ -115,7 +115,7 @@ export function Navigation() {
       <nav
         className={cn(
           'hidden md:block fixed bottom-0 right-0 z-50 p-6 md:p-10 transition-all duration-500',
-          isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'
+          isVisible && activeSection !== 'pipeline' ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'
         )}
       >
         <div className="flex flex-col items-end gap-3">
