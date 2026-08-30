@@ -54,13 +54,13 @@ export function Hero() {
           >
             <button
               onClick={handleAnalyze}
-              className="px-8 py-4 bg-foreground text-background font-medium text-sm tracking-wide rounded-lg hover:bg-foreground/90 transition-colors"
+              className="inline-flex items-center justify-center min-w-[220px] px-8 py-4 bg-foreground text-background font-medium text-sm tracking-wide rounded-lg hover:bg-foreground/90 transition-colors"
             >
               Analyze a Repository
             </button>
             <a
               href="#"
-              className="px-8 py-4 bg-foreground text-background font-medium text-sm tracking-wide rounded-lg hover:bg-foreground/90 transition-colors"
+              className="inline-flex items-center justify-center min-w-[220px] px-8 py-4 bg-foreground text-background font-medium text-sm tracking-wide rounded-lg hover:bg-foreground/90 transition-colors"
             >
               Documentation
             </a>
