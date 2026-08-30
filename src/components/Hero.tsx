@@ -50,7 +50,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-10 md:mt-12 flex justify-center"
+            className="mt-10 md:mt-12 flex items-center justify-start gap-4"
           >
             <button
               onClick={handleAnalyze}
@@ -58,12 +58,18 @@ export function Hero() {
             >
               Analyze a Repository
             </button>
+            <a
+              href="#"
+              className="px-8 py-4 border border-foreground/20 text-foreground font-medium text-sm tracking-wide rounded-lg hover:bg-foreground/5 hover:border-foreground/40 transition-colors"
+            >
+              Documentation
+            </a>
           </motion.div>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="mt-4 text-center text-xs text-muted-foreground/80 tracking-wide"
+            className="mt-4 text-left text-xs text-muted-foreground/80 tracking-wide"
           >
             No setup. Bring a public repo — get a root-cause analysis in minutes.
           </motion.p>
