@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useActiveSection } from '@/hooks/useActiveSection'
+import { usePipelineInView } from '@/hooks/usePipelineInView'
 import { useScrollVisibility } from '@/hooks/useScrollVisibility'
 import { cn } from '@/lib/utils'
 
@@ -18,6 +19,7 @@ const socialLinks = [
 export function Navigation() {
   const activeSection = useActiveSection()
   const isVisible = useScrollVisibility()
+  const pipelineInView = usePipelineInView()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const scrollToSection = (sectionId: string) => {
@@ -115,7 +117,7 @@ export function Navigation() {
       <nav
         className={cn(
           'hidden md:block fixed bottom-0 right-0 z-50 p-6 md:p-10 transition-all duration-500',
-          isVisible && activeSection !== 'pipeline' ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'
+          isVisible && !pipelineInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'
         )}
       >
         <div className="flex flex-col items-end gap-3">
