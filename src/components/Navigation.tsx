@@ -3,7 +3,19 @@ import { useActiveSection } from '@/hooks/useActiveSection'
 import { usePipelineInView } from '@/hooks/usePipelineInView'
 import { useScrollVisibility } from '@/hooks/useScrollVisibility'
 import { cn } from '@/lib/utils'
-...
+
+const navItems = [
+  { id: 'pipeline', label: 'Pipeline' },
+  { id: 'evidence', label: 'Evidence' },
+  { id: 'validation', label: 'Validation' },
+  { id: 'trust', label: 'Trust' },
+]
+
+const socialLinks = [
+  { label: 'GitHub', href: '#' },
+  { label: 'Docs', href: '#' },
+]
+
 export function Navigation() {
   const activeSection = useActiveSection()
   const isVisible = useScrollVisibility()
