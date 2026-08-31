@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { usePipelineInView } from '@/hooks/usePipelineInView'
 import { phases } from './pipeline/stageData'
 import { StageRow } from './pipeline/StageRow'
 import { StageNav } from './pipeline/StageNav'
@@ -9,7 +10,7 @@ export function Pipeline() {
   const trackRef = useRef<HTMLDivElement>(null)
   const stageRefs = useRef<(HTMLDivElement | null)[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
-  const [navVisible, setNavVisible] = useState(false)
+  const pipelineInView = usePipelineInView()
 
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -31,15 +32,8 @@ export function Pipeline() {
     )
     stageRefs.current.forEach((el) => el && observer.observe(el))
 
-    const trackObserver = new IntersectionObserver(
-      ([entry]) => setNavVisible(entry.isIntersecting),
-      { rootMargin: '-10% 0px -10% 0px', threshold: 0 }
-    )
-    if (trackRef.current) trackObserver.observe(trackRef.current)
-
     return () => {
       observer.disconnect()
-      trackObserver.disconnect()
     }
   }, [])
 
@@ -50,7 +44,7 @@ export function Pipeline() {
     <div ref={trackRef} id="pipeline" className="relative px-4 sm:px-6 md:px-12 lg:px-16">
       <StageNav
         activeIndex={activeIndex}
-        visible={navVisible}
+        visible={pipelineInView}
         onSelect={(i) => stageRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
       />
 
