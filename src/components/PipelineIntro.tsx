@@ -10,18 +10,18 @@ export function PipelineIntro() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="max-w-4xl mx-auto text-center"
       >
-        <span className="text-[10px] md:text-xs text-muted-foreground tracking-[0.35em] uppercase">
+        <span className="font-mono text-[10px] md:text-xs text-muted-foreground tracking-[0.35em] uppercase">
           The Repair Pipeline
         </span>
-        <h2 className="mt-6 font-display text-[13vw] md:text-section leading-[0.9] tracking-tighter text-foreground">
-          AI doesn&apos;t get<br />to patch first.
+        <h2 className="mt-6 font-display text-[11vw] md:text-[6.5vw] leading-[0.92] tracking-tighter text-foreground">
+          A bug enters.<br />A proven repair<br />comes out.
         </h2>
-        <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-          ProoFix builds evidence before it recommends a repair — from repository
-          understanding to validation and mergeability.
+        <p className="mt-8 font-mono text-[11px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground">
+          14 stages. One evidence chain.
         </p>
-        <p className="mt-6 font-mono text-[11px] tracking-widest uppercase text-muted-foreground/70">
-          14-stage autonomous repair pipeline
+        <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+          Repository → evidence → diagnosis → impact → repair → proof → decision.
+          Every stage consumes what the last one proved.
         </p>
       </motion.div>
     </section>

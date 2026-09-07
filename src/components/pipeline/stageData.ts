@@ -1,120 +1,243 @@
+export type Evidence = { label: string; value: string }
+
 export type Stage = {
   n: string
+  phase: string
   name: string
   desc: string
+  does: string[]
+  input: string
+  output: string
+  artifact: string
+  evidence: Evidence[]
 }
 
-export type Phase = {
-  id: string
-  label: string
-  title: string
-  desc: string
-  stages: Stage[]
-}
-
-export const phases: Phase[] = [
+export const stages: Stage[] = [
   {
-    id: 'pipeline',
-    label: 'Phase 01',
-    title: 'Understand',
-    desc: 'Understand the repository before touching the code.',
-    stages: [
-      {
-        n: '01',
-        name: 'Environment Precheck',
-        desc: 'Resolves runtimes, toolchains and lockfiles so every later step runs against a reproducible environment.',
-      },
-      {
-        n: '02',
-        name: 'Repository Indexing',
-        desc: 'Walks the tree and builds a durable index of files, symbols and build entrypoints.',
-      },
-      {
-        n: '03',
-        name: 'Repository Intelligence',
-        desc: 'Maps modules, functions and their semantic relationships into a queryable model of the codebase.',
-      },
-      {
-        n: '04',
-        name: 'Dependency Analyzer',
-        desc: 'Resolves internal and external imports into a directed graph of who depends on what.',
-      },
-      {
-        n: '05',
-        name: 'Static Analysis',
-        desc: 'Scans for defects, unsafe patterns and type violations, ranked by severity and confidence.',
-      },
+    n: '01',
+    phase: 'Understand',
+    name: 'Environment Precheck',
+    desc: 'Resolve the environment before the investigation begins.',
+    does: ['repository', 'environment', 'sandbox'],
+    input: 'Repository',
+    output: 'Reproducible environment',
+    artifact: 'Environment',
+    evidence: [
+      { label: 'runtime', value: 'python 3.11.9' },
+      { label: 'framework', value: 'fastapi' },
+      { label: 'test runner', value: 'pytest' },
+      { label: 'dependencies', value: '47 resolved' },
+      { label: 'confidence', value: '0.96' },
     ],
   },
   {
-    id: 'evidence',
-    label: 'Phase 02',
-    title: 'Prove',
-    desc: 'Establish that the problem exists and understand its impact.',
-    stages: [
-      {
-        n: '06',
-        name: 'Failure Reproduction',
-        desc: 'Executes the suite in an isolated sandbox until the failure is deterministically reproduced.',
-      },
-      {
-        n: '07',
-        name: 'Root Cause Analysis',
-        desc: 'Traces the failure back through evidence nodes to the exact source line responsible.',
-      },
-      {
-        n: '08',
-        name: 'Blast Radius',
-        desc: 'Expands the dependency graph outward to measure every module the change can reach.',
-      },
+    n: '02',
+    phase: 'Understand',
+    name: 'Repository Indexing',
+    desc: 'Decompose the repository into files, modules and entrypoints.',
+    does: ['environment', 'file tree', 'symbol index'],
+    input: 'Reproducible environment',
+    output: 'Repository index',
+    artifact: 'Repository Model',
+    evidence: [
+      { label: 'files', value: '42 indexed' },
+      { label: 'modules', value: '18' },
+      { label: 'entrypoints', value: '7' },
+      { label: 'relationships', value: '31' },
     ],
   },
   {
-    id: 'repair',
-    label: 'Phase 03',
-    title: 'Repair',
-    desc: 'Generate the smallest justified repair.',
-    stages: [
-      {
-        n: '09',
-        name: 'Context Engineering',
-        desc: 'Selects only the evidence-relevant files and discards the rest to keep the repair focused.',
-      },
-      {
-        n: '10',
-        name: 'Repair Planner',
-        desc: 'Constructs an ordered fix DAG so each edit lands with its prerequisites satisfied.',
-      },
-      {
-        n: '11',
-        name: 'Patch Generator',
-        desc: 'Emits a minimal diff — the fewest lines that resolve the proven root cause.',
-      },
+    n: '03',
+    phase: 'Understand',
+    name: 'Repository Intelligence',
+    desc: 'Recover what the code means, not just what it contains.',
+    does: ['symbols', 'behaviour', 'intent'],
+    input: 'Repository index',
+    output: 'Semantic model',
+    artifact: 'Semantic Model',
+    evidence: [
+      { label: 'functions understood', value: '312' },
+      { label: 'contracts inferred', value: '24' },
+      { label: 'ambiguous', value: '3' },
+      { label: 'confidence', value: '0.88' },
     ],
   },
   {
-    id: 'validation',
-    label: 'Phase 04',
-    title: 'Validate',
-    desc: 'Prove the repair is safe enough to recommend.',
-    stages: [
-      {
-        n: '12',
-        name: 'Mutation Validation',
-        desc: 'Runs the suite plus mutated variants to confirm the tests actually detect the defect.',
-      },
-      {
-        n: '13',
-        name: 'Security Re-scan',
-        desc: 'Re-scans the patched tree to confirm no new vulnerability was introduced by the repair.',
-      },
-      {
-        n: '14',
-        name: 'Mergeability Assessment',
-        desc: 'Weighs evidence, validation and security signals into a single, honest merge decision.',
-      },
+    n: '04',
+    phase: 'Understand',
+    name: 'Dependency Analyzer',
+    desc: 'Trace what changes when the suspected function changes.',
+    does: ['semantic model', 'edges', 'propagation'],
+    input: 'Semantic model',
+    output: 'Dependency graph',
+    artifact: 'Dependency Graph',
+    evidence: [
+      { label: 'internal edges', value: '128' },
+      { label: 'external packages', value: '47' },
+      { label: 'cycles', value: '0' },
+      { label: 'critical paths', value: '4' },
+    ],
+  },
+  {
+    n: '05',
+    phase: 'Understand',
+    name: 'Static Analysis',
+    desc: 'Pin defects to exact source locations, ranked by severity.',
+    does: ['source', 'findings', 'severity'],
+    input: 'Dependency graph',
+    output: 'Static findings',
+    artifact: 'Static Findings',
+    evidence: [
+      { label: 'findings', value: '3' },
+      { label: 'high', value: '1' },
+      { label: 'medium', value: '1' },
+      { label: 'low', value: '1' },
+    ],
+  },
+  {
+    n: '06',
+    phase: 'Prove',
+    name: 'Failure Reproduction',
+    desc: 'Can the reported failure actually be reproduced?',
+    does: ['sandbox', 'execution trace', 'failure'],
+    input: 'Static findings',
+    output: 'Reproduced failure',
+    artifact: 'Reproduced Failure',
+    evidence: [
+      { label: 'runs', value: '3 / 3 failed' },
+      { label: 'deterministic', value: 'yes' },
+      { label: 'failing test', value: 'test_auth.py:41' },
+      { label: 'status', value: 'reproducible' },
+    ],
+  },
+  {
+    n: '07',
+    phase: 'Prove',
+    name: 'Root Cause Analysis',
+    desc: 'Find the smallest explanation that accounts for the failure.',
+    does: ['evidence', 'convergence', 'cause'],
+    input: 'Reproduced failure',
+    output: 'Root cause',
+    artifact: 'Root Cause',
+    evidence: [
+      { label: 'location', value: 'app/cache.py:34' },
+      { label: 'evidence sources', value: '4' },
+      { label: 'alternatives ruled out', value: '5' },
+      { label: 'confidence', value: '0.91' },
+    ],
+  },
+  {
+    n: '08',
+    phase: 'Prove',
+    name: 'Blast Radius',
+    desc: 'Measure everything the repair can reach.',
+    does: ['cause', 'callers', 'runtime paths'],
+    input: 'Root cause',
+    output: 'Impact surface',
+    artifact: 'Blast Radius',
+    evidence: [
+      { label: 'reachable functions', value: '12' },
+      { label: 'runtime paths', value: '4' },
+      { label: 'untested paths', value: '2' },
+      { label: 'high-risk boundary', value: '1' },
+    ],
+  },
+  {
+    n: '09',
+    phase: 'Repair',
+    name: 'Context Engineering',
+    desc: 'Select only the evidence-relevant context. Discard the rest.',
+    does: ['247 files', 'filters', '7 files'],
+    input: 'Impact surface',
+    output: 'Repair context',
+    artifact: 'Repair Context',
+    evidence: [
+      { label: 'files', value: '247 → 7' },
+      { label: 'functions', value: '3' },
+      { label: 'tests', value: '2' },
+      { label: 'contracts', value: '1' },
+    ],
+  },
+  {
+    n: '10',
+    phase: 'Repair',
+    name: 'Repair Planner',
+    desc: 'Order the repair so every edit lands with its prerequisites met.',
+    does: ['context', 'ordered DAG', 'plan'],
+    input: 'Repair context',
+    output: 'Repair plan',
+    artifact: 'Repair Plan',
+    evidence: [
+      { label: 'steps', value: '4' },
+      { label: 'blocked until', value: 'contract update' },
+      { label: 'invariants preserved', value: '2' },
+      { label: 'risk', value: 'low' },
+    ],
+  },
+  {
+    n: '11',
+    phase: 'Repair',
+    name: 'Patch Generator',
+    desc: 'Emit the fewest lines that resolve the proven root cause.',
+    does: ['plan', 'transformation', 'diff'],
+    input: 'Repair plan',
+    output: 'Patch',
+    artifact: 'Patch',
+    evidence: [
+      { label: 'files touched', value: '2' },
+      { label: 'lines added', value: '+3' },
+      { label: 'lines removed', value: '−1' },
+      { label: 'behaviour changed', value: 'guarded path only' },
+    ],
+  },
+  {
+    n: '12',
+    phase: 'Validate',
+    name: 'Mutation Validation',
+    desc: 'Do the tests actually detect the defect, or just pass?',
+    does: ['patch', 'mutants', 'kill rate'],
+    input: 'Patch',
+    output: 'Validation result',
+    artifact: 'Validation',
+    evidence: [
+      { label: 'suite', value: '48 / 48 pass' },
+      { label: 'mutants killed', value: '19 / 21' },
+      { label: 'survived', value: '2' },
+      { label: 'MCI', value: '0.82' },
+    ],
+  },
+  {
+    n: '13',
+    phase: 'Validate',
+    name: 'Security Re-scan',
+    desc: 'Compare the security surface before and after the patch.',
+    does: ['before', 'delta', 'after'],
+    input: 'Validation result',
+    output: 'Security delta',
+    artifact: 'Security Delta',
+    evidence: [
+      { label: 'before', value: '3 findings' },
+      { label: 'after', value: '2 findings' },
+      { label: 'new findings', value: '0' },
+      { label: 'secrets scan', value: 'clean' },
+    ],
+  },
+  {
+    n: '14',
+    phase: 'Validate',
+    name: 'Mergeability Assessment',
+    desc: 'Weigh every signal into one honest decision.',
+    does: ['evidence', 'gates', 'decision'],
+    input: 'Security delta',
+    output: 'Merge decision',
+    artifact: 'Merge Decision',
+    evidence: [
+      { label: 'gates passed', value: '7 / 7' },
+      { label: 'confidence', value: '0.91' },
+      { label: 'decision', value: 'proven fix' },
+      { label: 'state', value: 'ready for review' },
     ],
   },
 ]
 
-export const allStages = phases.flatMap((p) => p.stages)
+export const allStages = stages
