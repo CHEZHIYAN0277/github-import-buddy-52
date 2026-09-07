@@ -1,95 +1,128 @@
 # Live Investigation Surface
 
-Turn the 14-stage timeline from a list of agent cards into one continuous investigation, where each stage consumes the previous stage's output and produces new evidence.
+Turn the 14-stage timeline from a list of feature cards into one continuous investigation, where each stage consumes the previous stage's output and produces new evidence. The information transformation itself is the animation.
 
-## 1. Stronger entry into the pipeline
+Repository → evidence → diagnosis → impact → repair → proof → decision.
 
-Rework the intro section above the pipeline:
+## 1. Entry into the pipeline
 
 - Eyebrow: THE REPAIR PIPELINE
-- Headline: "A bug enters. Evidence comes out."
-- Sub-line: 14 agents. One evidence chain.
+- Headline: "A bug enters. A proven repair comes out."
+- Sub-line: 14 stages. One evidence chain.
 
-The current phase headers (PHASE 01 UNDERSTAND, etc.) stop being big full-width interruptions; the phase name becomes a small label inside each stage's header instead, so the scroll never breaks out of the investigation.
+## 2. No more giant phase headers
 
-## 2. Persistent investigation instrument (right side)
+The full-screen PHASE 01 / UNDERSTAND interruptions are removed. Each stage carries its phase as a small label in its own header:
 
-Replace the current right-side stage list with a progress instrument that reads like equipment, not a menu:
+```text
+01 / 14    UNDERSTAND
+
+ENVIRONMENT PRECHECK
+Resolve the environment before the investigation begins.
+```
+
+## 3. Persistent investigation instrument (right side)
+
+The stage list becomes an instrument that reads like a debugging console, not a menu:
 
 ```text
 INVESTIGATION
-─────────────────
-01 / 14
-ENVIRONMENT PRECHECK
+────────────────
+07 / 14
+BLAST RADIUS
 
 EVIDENCE
-██████░░░░░░░░░░
+███████░░░░░░░
+
+CURRENT EVIDENCE
+12 reachable functions
+4 runtime paths
+2 untested paths
+1 high-risk boundary
+
+✓ Environment   ✓ Indexing   ● Blast Radius   ○ Context ...
 ```
 
-- Stage counter, current stage name, and an evidence bar that fills as the scroll advances (empty at stage 01, full at 14, then "PROVEN").
-- Below it, the compact 14-row stage list stays clickable, with completed rows marked, active row highlighted, upcoming rows dimmed.
-- Keeps the current behaviour: hidden while scrolling, appears ~200ms after scrolling stops, visible only inside the pipeline section.
+- Counter, active stage name, evidence bar that fills across the 14 stages, and a live per-stage evidence readout that changes with the active stage.
+- Compact 14-row list stays clickable: passed rows checked, active row marked, upcoming rows dimmed.
+- Keeps current behaviour: hidden while scrolling, reappears ~200ms after scrolling stops, only inside the pipeline section.
 
-## 3. Each stage becomes an evidence chamber
+## 4. Each stage is an evidence chamber
 
-Every stage keeps its full-screen slot and gets a consistent three-part structure:
+Same spatial frame every stage, different content:
 
 ```text
-01 / 14   UNDERSTAND
+01 / 14   UNDERSTAND        ENVIRONMENT PRECHECK
 
-ENVIRONMENT PRECHECK
-─────────────────────────────
-Resolve the environment before the investigation begins.
+WHAT IT DOES          LIVE INVESTIGATION          EVIDENCE
+repository            (stage-specific visual)     Python 3.11
+→ environment                                     27 deps
+                                                  tests: available
+                                                  confidence 0.96
 
-LEFT: what the agent does   CENTER: live visualization   RIGHT: evidence produced
-
-INPUT   repository
-OUTPUT  reproducible environment
+INPUT  repository        OUTPUT  reproducible environment
 ```
 
-- The INPUT of each stage is literally the OUTPUT of the previous one, so the chain is visible and causal.
-- The alternating left/right zigzag is replaced by this stable frame, so the eye stays anchored while the content transforms.
-- Evidence panel shows structured, real-looking output (paths, counts, confidence values) rather than generic copy.
+Each stage's INPUT is literally the previous stage's OUTPUT.
 
-## 4. Distinct visualization per agent
+## 5. Stage-specific visualizations
 
-Each of the 14 keeps its own visual language, upgraded from the current cards:
+No shared card template. Each visual represents the actual job:
 
-boot sequence, file indexing, semantic map, dependency propagation, findings on source, test replay, evidence convergence, impact propagation, context assembly, repair DAG, live diff, mutations being killed, vulnerability scan, trust gates.
+1. Environment fingerprint (runtime / framework / test runner / deps / status)
+2. Repository decomposing into a tree, files indexed progressively
+3. Semantic relationships — a function and what it means, not a node blob
+4. Dependency propagation
+5. Code fragment with findings pinned to exact lines
+6. Execution trace to failure, then Run 01/02/03 FAIL → REPRODUCIBLE
+7. Multiple evidence sources converging on one root cause
+8. Impact propagation: changed function → callers → contracts → runtime paths → coverage
+9. Context funnel: 247 files → 31 → 12 → 7, ending in the patch context
+10. Repair DAG with nodes unlocking by dependency
+11. Minimal diff plus +3 / −1 / 2 files
+12. Mutants killed vs survived, ending in an MCI score
+13. Security delta before/after patch, with NEW FINDINGS 0
+14. Gates converging into a decision — and it can say PROVEN FIX or DRAFT ONLY / MANUAL REVIEW REQUIRED
 
-## 5. Evidence spine instead of a timeline
+## 6. Evidence chain as the backbone
 
-The center rail keeps its position but changes meaning: as the user scrolls, labelled nodes are stamped onto it (Environment, Repository, Intelligence, Root Cause, Patch, Validation, Trust). Passed nodes stay filled and labelled — the spine visibly accumulates evidence instead of just tracking scroll.
+The center rail stops reading as a timeline. As the user scrolls, it accumulates named evidence artifacts — Environment, Repository Model, Dependency Graph, Static Findings, Reproduced Failure, Root Cause, Blast Radius, Repair Context, Repair Plan, Patch, Validation, Security Delta, Merge Decision. Only the recent portion is shown expanded; earlier artifacts compress into small tokens so the chain never becomes a permanent wall diagram.
 
-## 6. Layered parallax inside each stage
+## 7. Stage transition is the signature interaction
 
-Three depths per stage: a very slow background layer of repository fragments (paths, hashes, log lines), the visualization at mid speed, and the title plus conclusion nearly fixed. Motion stays subtle and is disabled under reduced-motion settings.
+A stage doesn't vanish. Its output compresses into an evidence token, travels along the chain, and lands in the next stage's INPUT slot — so stage 07 visibly consumes stage 06's confirmed reproduction.
 
-## 7. Carry-forward between stages
+## 8. Parallax, used selectively
 
-As a stage scrolls out, its key result compresses into a small evidence token that appears in the next stage's INPUT slot — so stage 07 visibly consumes stage 06's confirmed reproduction.
+Three depths only:
 
-## 8. Ending: the timeline collapses into a decision
+- Background: slow, faint repository/evidence texture
+- Mid: the investigation visualization, normal scroll-linked motion
+- Foreground: the evidence readout, nearly pinned
 
-After stage 14 the spine converges into a single decision card:
+Text and headers stay still. All motion respects reduced-motion settings.
+
+## 9. Ending: the chain collapses into a decision
 
 ```text
-PROOF COMPLETE
-Evidence ✓  Reproduction ✓  Root Cause ✓  Validation ✓  Security ✓
-TRUST SCORE 0.91
+EVIDENCE ✓  REPRODUCTION ✓  ROOT CAUSE ✓  BLAST RADIUS ✓
+VALIDATION ✓  SECURITY ✓  MERGEABILITY ✓
+
+PROVEN FIX
+Confidence 0.91
+READY FOR REVIEW
 ```
 
-Followed by the payoff: FROM POSSIBLE PATCH → PROVEN FIX, then the existing CTA and footer.
+With the honest alternative shown alongside (DRAFT ONLY / MANUAL REVIEW REQUIRED), then the payoff line and existing CTA and footer.
 
 ## Kept unchanged
 
-Hero, PROOFIX branding, black/near-black palette, typography, spacing discipline, minimal top nav, full-screen scrolling, and the nav swap behaviour between section nav and pipeline instrument.
+Hero, PROOFIX branding, black/near-black palette, typography, spacing discipline, minimal top nav, full-screen scrolling, and the nav swap between section nav and pipeline instrument.
 
 ## Technical notes
 
-- `stageData.ts` extends each stage with `phase`, `input`, `output`, `process` steps, and an evidence payload; phases remain but render as labels.
-- New `StageChamber` replaces `StageRow`'s zigzag layout with the fixed three-column frame; `StageVisual` keeps its per-stage switch and gains the background fragment layer.
-- `StageNav` becomes `InvestigationPanel` (counter + evidence bar + stage list), still driven by the existing `usePipelineInView` observer and the active-index observer in `Pipeline.tsx`.
-- Evidence bar progress derives from the existing `useScroll` progress on the pipeline track — no new scroll listeners.
-- Spine node labels rendered from `stageData`, keyed to phase boundaries.
-- Framer Motion only; no new dependencies. All motion respects `useReducedMotion`.
+- `stageData.ts` extends each stage with `phase`, `input`, `output`, short "what it does" copy, and a structured evidence payload (label/value pairs) consumed by both the chamber and the side instrument.
+- New `StageChamber` replaces `StageRow`'s zigzag with the fixed three-zone frame; `StageVisual` keeps its per-stage switch and each branch is rewritten to the visuals above.
+- `StageNav` becomes `InvestigationPanel`: counter, evidence bar, current-evidence readout, stage list — driven by the existing `usePipelineInView` observer and the active-index observer in `Pipeline.tsx`.
+- Evidence bar and chain progress derive from the existing `useScroll` progress on the pipeline track; no new scroll listeners.
+- Framer Motion only, no new dependencies; layout transitions use shared-layout animation for the evidence token handoff.
