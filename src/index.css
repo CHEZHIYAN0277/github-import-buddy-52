@@ -47,6 +47,17 @@
 
   html {
     scroll-behavior: smooth;
+    /* Gentle snapping: only elements that opt in (pipeline stages) snap. */
+    scroll-snap-type: y proximity;
+  }
+
+  .stage-snap {
+    scroll-snap-align: center;
+    scroll-snap-stop: normal;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-snap-type: none; }
   }
 
   body {
