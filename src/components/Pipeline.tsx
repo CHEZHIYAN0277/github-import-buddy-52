@@ -3,7 +3,7 @@ import { motion, useScroll, useSpring } from 'framer-motion'
 import { usePipelineInView } from '@/hooks/usePipelineInView'
 import { stages } from './pipeline/stageData'
 import { StageChamber } from './pipeline/StageChamber'
-import { StageNav } from './pipeline/StageNav'
+import { InvestigationPanel } from './pipeline/InvestigationPanel'
 
 export function Pipeline() {
   const trackRef = useRef<HTMLDivElement>(null)
@@ -35,7 +35,7 @@ export function Pipeline() {
 
   return (
     <div ref={trackRef} id="pipeline" className="relative px-4 sm:px-6 md:px-12 lg:px-16">
-      <StageNav
+      <InvestigationPanel
         activeIndex={activeIndex}
         visible={pipelineInView}
         onSelect={(i) => stageRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
