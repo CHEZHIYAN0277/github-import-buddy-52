@@ -28,8 +28,8 @@ export function StageChamber({ stage, index, active, passed, registerRef }: Prop
   const reduced = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: wrapRef, offset: ['start end', 'end start'] })
 
-  const bgY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [40, -40])
-  const midY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [110, -110])
+  const bgY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [14, -14])
+  const midY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [56, -56])
   const fgY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [24, -24])
 
   return (
@@ -39,7 +39,7 @@ export function StageChamber({ stage, index, active, passed, registerRef }: Prop
         registerRef(el)
       }}
       data-stage={index}
-      className="relative min-h-[100svh] flex items-center py-20 md:py-0"
+      className="stage-snap relative min-h-[100svh] flex items-center py-20 md:py-0"
     >
       {/* Spine node */}
       <div className="absolute left-[13px] md:left-6 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
@@ -79,8 +79,8 @@ export function StageChamber({ stage, index, active, passed, registerRef }: Prop
       <div
         className={cn(
           'relative w-full pl-10 md:pl-20 lg:pl-24 pr-0 lg:pr-56',
-          'transition-opacity duration-700 ease-out motion-reduce:transition-none',
-          active ? 'opacity-100' : 'opacity-0 md:opacity-[0.06]'
+          'transition-opacity duration-500 ease-out motion-reduce:transition-none',
+          active ? 'opacity-100' : 'opacity-0 md:opacity-[0.12]'
         )}
       >
         {/* Header */}
