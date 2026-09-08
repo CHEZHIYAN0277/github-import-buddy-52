@@ -28,9 +28,10 @@ export function StageChamber({ stage, index, active, passed, registerRef }: Prop
   const reduced = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: wrapRef, offset: ['start end', 'end start'] })
 
-  const bgY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [14, -14])
-  const midY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [56, -56])
-  const fgY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [24, -24])
+  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.35 })
+  const bgY = useTransform(smooth, [0, 1], reduced ? [0, 0] : [28, -28])
+  const midY = useTransform(smooth, [0, 1], reduced ? [0, 0] : [56, -56])
+  const fgY = useTransform(smooth, [0, 1], reduced ? [0, 0] : [12, -12])
 
   return (
     <div
