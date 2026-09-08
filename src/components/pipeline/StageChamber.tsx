@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { motion, useScroll, useSpring, useTransform, useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { StageVisual } from './StageVisual'
 import type { Stage } from './stageData'
