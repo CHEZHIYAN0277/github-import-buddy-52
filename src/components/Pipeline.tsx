@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
-import { cn } from '@/lib/utils'
 import { usePipelineInView } from '@/hooks/usePipelineInView'
-import { phases } from './pipeline/stageData'
-import { StageRow } from './pipeline/StageRow'
+import { stages } from './pipeline/stageData'
+import { StageChamber } from './pipeline/StageChamber'
 import { StageNav } from './pipeline/StageNav'
 
 export function Pipeline() {
@@ -31,14 +30,8 @@ export function Pipeline() {
       { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
     )
     stageRefs.current.forEach((el) => el && observer.observe(el))
-
-    return () => {
-      observer.disconnect()
-    }
+    return () => observer.disconnect()
   }, [])
-
-
-  let counter = -1
 
   return (
     <div ref={trackRef} id="pipeline" className="relative px-4 sm:px-6 md:px-12 lg:px-16">
@@ -48,60 +41,30 @@ export function Pipeline() {
         onSelect={(i) => stageRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
       />
 
-      {/* Vertical rail */}
-      <div className="absolute top-0 bottom-0 left-[17px] sm:left-[25px] md:left-1/2 w-px bg-border/60 md:-translate-x-1/2">
+      {/* Evidence spine */}
+      <div className="absolute top-0 bottom-0 left-[17px] md:left-6 w-px bg-border/60">
         <motion.div
           className="absolute top-0 left-0 w-px bg-foreground/70 origin-top h-full"
           style={{ scaleY: progress }}
         />
       </div>
 
-      <div className="relative max-w-6xl mx-auto">
-        {phases.map((phase) => (
-          <section key={phase.id} id={phase.id} className="scroll-mt-24">
-            {/* Phase header */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-20%' }}
-              transition={{ duration: 0.7, ease: 'easeOut' }}
-              className="relative pl-10 md:pl-0 pt-24 md:pt-40 pb-4 md:text-center"
-            >
-              <div className="md:inline-block md:bg-background md:px-8">
-                <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-muted-foreground">
-                  {phase.label}
-                </span>
-                <h3 className="mt-3 font-display text-4xl md:text-6xl lg:text-7xl tracking-tighter text-foreground">
-                  {phase.title}
-                </h3>
-                <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-md md:mx-auto">
-                  {phase.desc}
-                </p>
-              </div>
-            </motion.div>
-
-            {phase.stages.map((stage) => {
-              counter += 1
-              const index = counter
-              return (
-                <StageRow
-                  key={stage.n}
-                  stage={stage}
-                  index={index}
-                  active={activeIndex === index}
-                  passed={activeIndex > index}
-                  registerRef={(el) => {
-                    stageRefs.current[index] = el
-                  }}
-                />
-              )
-            })}
-          </section>
+      <div className="relative max-w-7xl mx-auto">
+        {stages.map((stage, index) => (
+          <StageChamber
+            key={stage.n}
+            stage={stage}
+            index={index}
+            active={activeIndex === index}
+            passed={activeIndex > index}
+            registerRef={(el) => {
+              stageRefs.current[index] = el
+            }}
+          />
         ))}
       </div>
 
-      {/* Convergence */}
-      <div className={cn('relative h-24 md:h-40')} />
+      <div className="relative h-24 md:h-40" />
     </div>
   )
 }
