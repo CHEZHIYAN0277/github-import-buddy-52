@@ -5,9 +5,10 @@ const checks = [
   'Evidence',
   'Reproduction',
   'Root Cause',
+  'Blast Radius',
   'Validation',
   'Security',
-  'Impact Analysis',
+  'Mergeability',
 ]
 
 const states = [
@@ -48,6 +49,22 @@ export function ProofSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* Decision */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-10%' }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          className="mt-12 rounded-xl border border-[hsl(var(--brand)/0.45)] bg-secondary/40 p-6 md:p-8 text-center"
+        >
+          <div className="font-display text-3xl md:text-5xl tracking-tighter text-foreground">
+            PROVEN FIX
+          </div>
+          <div className="mt-3 font-mono text-[11px] tracking-[0.3em] uppercase text-muted-foreground">
+            Confidence 0.91 · Ready for review
+          </div>
+        </motion.div>
 
         {/* Mergeability */}
         <div className="mt-16 md:mt-24">

@@ -240,4 +240,3 @@ export const stages: Stage[] = [
   },
 ]
 
-export const allStages = stages
