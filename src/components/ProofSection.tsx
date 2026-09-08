@@ -5,9 +5,10 @@ const checks = [
   'Evidence',
   'Reproduction',
   'Root Cause',
+  'Blast Radius',
   'Validation',
   'Security',
-  'Impact Analysis',
+  'Mergeability',
 ]
 
 const states = [
