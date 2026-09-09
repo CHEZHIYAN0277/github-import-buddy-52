@@ -38,10 +38,8 @@ export function StageChamber({ stage, index, active, registerRef }: Props) {
     [0.55, 0.85],
     reduced ? ['blur(0px)', 'blur(0px)'] : ['blur(0px)', 'blur(14px)']
   )
-  const exitOpacity = useTransform(scrollYProgress, [0.55, 0.9], [1, 0])
   const exitScale = useTransform(scrollYProgress, [0.55, 0.9], reduced ? [1, 1] : [1, 0.96])
-  // Subtle entrance: incoming stage sharpens into place
-  const enterOpacity = useTransform(scrollYProgress, [0.05, 0.3], [0, 1])
+  // Subtle entrance: incoming stage rises into place
   const enterY = useTransform(scrollYProgress, [0.05, 0.35], reduced ? [0, 0] : [60, 0])
   const opacity = useTransform(
     scrollYProgress,
