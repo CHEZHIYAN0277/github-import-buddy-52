@@ -162,7 +162,7 @@ export function StageChamber({ stage, index, active, registerRef }: Props) {
             <span className="ml-2 text-foreground normal-case tracking-normal text-[11px]">{stage.output}</span>
           </span>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
