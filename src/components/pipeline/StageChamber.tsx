@@ -79,11 +79,15 @@ export function StageChamber({ stage, index, active, registerRef }: Props) {
         ))}
       </motion.div>
 
-      <div
-        className={cn(
-          'relative w-full pr-0 lg:pr-56',
-          'transition-opacity duration-500 ease-out motion-reduce:transition-none opacity-100'
-        )}
+      <motion.div
+        style={{
+          filter: exitBlur,
+          opacity,
+          scale: exitScale,
+          y: enterY,
+          willChange: 'filter, opacity, transform',
+        }}
+        className="relative w-full pr-0 lg:pr-56"
       >
         {/* Header */}
         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 font-mono text-[10px] tracking-[0.3em] uppercase">
