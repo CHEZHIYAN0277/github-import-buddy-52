@@ -8,7 +8,6 @@ type Props = {
   stage: Stage
   index: number
   active: boolean
-  passed: boolean
   registerRef: (el: HTMLDivElement | null) => void
 }
 
@@ -23,7 +22,7 @@ const fragments = [
   'config/settings.toml',
 ]
 
-export function StageChamber({ stage, index, active, passed, registerRef }: Props) {
+export function StageChamber({ stage, index, active, registerRef }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: wrapRef, offset: ['start end', 'end start'] })
@@ -42,20 +41,6 @@ export function StageChamber({ stage, index, active, passed, registerRef }: Prop
       data-stage={index}
       className="stage-snap relative min-h-[100svh] flex items-center py-20 md:py-0"
     >
-      {/* Spine node */}
-      <div className="absolute left-[13px] md:left-6 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-        <span
-          className={cn(
-            'block rounded-full transition-all duration-500 ease-out motion-reduce:transition-none',
-            active
-              ? 'w-3 h-3 bg-foreground ring-4 ring-background shadow-[0_0_0_1px_hsl(var(--brand)/0.6)]'
-              : passed
-                ? 'w-2 h-2 bg-muted-foreground/70 ring-4 ring-background'
-                : 'w-2 h-2 bg-border ring-4 ring-background'
-          )}
-        />
-      </div>
-
       {/* Layer 1 — background texture */}
       <motion.div
         style={{ y: bgY }}
@@ -63,7 +48,7 @@ export function StageChamber({ stage, index, active, passed, registerRef }: Prop
         className={cn(
           'pointer-events-none absolute inset-0 overflow-hidden font-mono text-[10px] text-muted-foreground/[0.07]',
           'transition-opacity duration-700 motion-reduce:transition-none',
-          active ? 'opacity-100' : 'opacity-0'
+          active ? 'opacity-100' : 'opacity-30'
         )}
       >
         {fragments.map((f, i) => (
@@ -79,9 +64,8 @@ export function StageChamber({ stage, index, active, passed, registerRef }: Prop
 
       <div
         className={cn(
-          'relative w-full pl-10 md:pl-20 lg:pl-24 pr-0 lg:pr-56',
-          'transition-opacity duration-500 ease-out motion-reduce:transition-none',
-          active ? 'opacity-100' : 'opacity-0 md:opacity-[0.12]'
+          'relative w-full pr-0 lg:pr-56',
+          'transition-opacity duration-500 ease-out motion-reduce:transition-none opacity-100'
         )}
       >
         {/* Header */}
@@ -134,7 +118,7 @@ export function StageChamber({ stage, index, active, passed, registerRef }: Prop
                   key={e.label}
                   className={cn(
                     'flex items-baseline justify-between gap-4 transition-all duration-500 motion-reduce:transition-none',
-                    active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
+                    active ? 'opacity-100 translate-y-0' : 'opacity-70 translate-y-0'
                   )}
                   style={{ transitionDelay: `${active ? 400 + i * 120 : 0}ms` }}
                 >

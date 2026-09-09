@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useScroll, useSpring } from 'framer-motion'
 import { usePipelineInView } from '@/hooks/usePipelineInView'
 import { stages } from './pipeline/stageData'
 import { StageChamber } from './pipeline/StageChamber'
@@ -11,12 +10,6 @@ export function Pipeline() {
   const [activeIndex, setActiveIndex] = useState(0)
   const pipelineInView = usePipelineInView()
 
-  const { scrollYProgress } = useScroll({
-    target: trackRef,
-    offset: ['start 60%', 'end 60%'],
-  })
-  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 })
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -27,7 +20,7 @@ export function Pipeline() {
           }
         })
       },
-      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0 }
     )
     stageRefs.current.forEach((el) => el && observer.observe(el))
     return () => observer.disconnect()
@@ -41,14 +34,6 @@ export function Pipeline() {
         onSelect={(i) => stageRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
       />
 
-      {/* Evidence spine */}
-      <div className="absolute top-0 bottom-0 left-[17px] md:left-6 w-px bg-border/60">
-        <motion.div
-          className="absolute top-0 left-0 w-px bg-foreground/70 origin-top h-full"
-          style={{ scaleY: progress }}
-        />
-      </div>
-
       <div className="relative max-w-7xl mx-auto">
         {stages.map((stage, index) => (
           <StageChamber
@@ -56,7 +41,6 @@ export function Pipeline() {
             stage={stage}
             index={index}
             active={activeIndex === index}
-            passed={activeIndex > index}
             registerRef={(el) => {
               stageRefs.current[index] = el
             }}
