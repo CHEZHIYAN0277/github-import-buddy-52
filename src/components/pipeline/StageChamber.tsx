@@ -32,6 +32,23 @@ export function StageChamber({ stage, index, active, registerRef }: Props) {
   const midY = useTransform(smooth, [0, 1], reduced ? [0, 0] : [56, -56])
   const fgY = useTransform(smooth, [0, 1], reduced ? [0, 0] : [12, -12])
 
+  // Blur + fade out as the stage leaves the top of the viewport (next stage arrives)
+  const exitBlur = useTransform(
+    scrollYProgress,
+    [0.55, 0.85],
+    reduced ? ['blur(0px)', 'blur(0px)'] : ['blur(0px)', 'blur(14px)']
+  )
+  const exitOpacity = useTransform(scrollYProgress, [0.55, 0.9], [1, 0])
+  const exitScale = useTransform(scrollYProgress, [0.55, 0.9], reduced ? [1, 1] : [1, 0.96])
+  // Subtle entrance: incoming stage sharpens into place
+  const enterOpacity = useTransform(scrollYProgress, [0.05, 0.3], [0, 1])
+  const enterY = useTransform(scrollYProgress, [0.05, 0.35], reduced ? [0, 0] : [60, 0])
+  const opacity = useTransform(
+    scrollYProgress,
+    [0.05, 0.3, 0.55, 0.9],
+    [0, 1, 1, 0]
+  )
+
   return (
     <div
       ref={(el) => {
