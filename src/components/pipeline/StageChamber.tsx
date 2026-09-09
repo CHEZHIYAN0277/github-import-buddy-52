@@ -32,6 +32,21 @@ export function StageChamber({ stage, index, active, registerRef }: Props) {
   const midY = useTransform(smooth, [0, 1], reduced ? [0, 0] : [56, -56])
   const fgY = useTransform(smooth, [0, 1], reduced ? [0, 0] : [12, -12])
 
+  // Blur + fade out as the stage leaves the top of the viewport (next stage arrives)
+  const exitBlur = useTransform(
+    scrollYProgress,
+    [0.55, 0.85],
+    reduced ? ['blur(0px)', 'blur(0px)'] : ['blur(0px)', 'blur(14px)']
+  )
+  const exitScale = useTransform(scrollYProgress, [0.55, 0.9], reduced ? [1, 1] : [1, 0.96])
+  // Subtle entrance: incoming stage rises into place
+  const enterY = useTransform(scrollYProgress, [0.05, 0.35], reduced ? [0, 0] : [60, 0])
+  const opacity = useTransform(
+    scrollYProgress,
+    [0.05, 0.3, 0.55, 0.9],
+    [0, 1, 1, 0]
+  )
+
   return (
     <div
       ref={(el) => {
@@ -62,11 +77,15 @@ export function StageChamber({ stage, index, active, registerRef }: Props) {
         ))}
       </motion.div>
 
-      <div
-        className={cn(
-          'relative w-full pr-0 lg:pr-56',
-          'transition-opacity duration-500 ease-out motion-reduce:transition-none opacity-100'
-        )}
+      <motion.div
+        style={{
+          filter: exitBlur,
+          opacity,
+          scale: exitScale,
+          y: enterY,
+          willChange: 'filter, opacity, transform',
+        }}
+        className="relative w-full pr-0 lg:pr-56"
       >
         {/* Header */}
         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 font-mono text-[10px] tracking-[0.3em] uppercase">
@@ -141,7 +160,7 @@ export function StageChamber({ stage, index, active, registerRef }: Props) {
             <span className="ml-2 text-foreground normal-case tracking-normal text-[11px]">{stage.output}</span>
           </span>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
