@@ -13,14 +13,21 @@ export function Pipeline() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = Number((entry.target as HTMLElement).dataset.stage)
-            if (!Number.isNaN(idx)) setActiveIndex(idx)
-          }
+        const visibleEntries = entries.filter((entry) => entry.isIntersecting)
+        if (visibleEntries.length === 0) return
+
+        const activationLine = window.innerHeight * 0.6
+        const closestEntry = visibleEntries.reduce((closest, entry) => {
+          const entryCenter = entry.boundingClientRect.top + entry.boundingClientRect.height / 2
+          const closestCenter = closest.boundingClientRect.top + closest.boundingClientRect.height / 2
+          return Math.abs(entryCenter - activationLine) < Math.abs(closestCenter - activationLine)
+            ? entry
+            : closest
         })
+        const idx = Number((closestEntry.target as HTMLElement).dataset.stage)
+        if (!Number.isNaN(idx)) setActiveIndex(idx)
       },
-      { rootMargin: '-35% 0px -55% 0px', threshold: 0 }
+      { rootMargin: '-58% 0px -38% 0px', threshold: 0 }
     )
     stageRefs.current.forEach((el) => el && observer.observe(el))
     return () => observer.disconnect()
